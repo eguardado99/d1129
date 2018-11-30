@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router'
 
+
 import { AppComponent } from './app.component';
 
 import {AngularFireModule} from '@angular/fire'
@@ -11,7 +12,17 @@ import {environment} from '../environments/environment';
 import { BoardsComponent } from './boards/boards.component';
 import { BoardsDetailComponent } from './boards-detail/boards-detail.component';
 import { BoardsCreateComponent } from './boards-create/boards-create.component';
-import { BoardsEditComponent } from './boards-edit/boards-edit.component'
+import { BoardsEditComponent } from './boards-edit/boards-edit.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+
+import {
+  MatInputModule,
+  MatTableModule,
+  MatIconModule,
+  MatButtonModule,
+  MatCardModule,
+} from '@angular/material'
+import { ReactiveFormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   {
@@ -49,7 +60,13 @@ const appRoutes: Routes = [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     AngularFireModule.initializeApp(environment.firebase), 
-    AngularFirestoreModule
+    AngularFirestoreModule, BrowserAnimationsModule
+    MatInputModule,
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCardModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
