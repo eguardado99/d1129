@@ -1,73 +1,55 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as firebase from 'firebase';
-import firestore from 'firebase/firestore'
+import { Injectable } from '@angular/core'
+
+import { Observable, from } from 'rxjs'
+import { map } from 'rxjs/operators'
+
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore'
+
+export interface Board {
+  id: string 
+  // updated id?:
+  author: string
+  description: string
+  title: string
+}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FirestoreService {
+  private boardCollection: AngularFirestoreCollection<Board>
 
-  ref = firebase.firestore().collection('boards');
+  constructor(private afs: AngularFirestore) {
+    this.boardCollection = afs.collection<Board>('books')
+  }
 
-  constructor() { }
-
-  getBoards(): Observable<any> {
-    return new Observable((observer) => {
-      this.ref.onSnapshot((querySnapshot) => {
-        let boards = [];
-        querySnapshot.forEach((doc) => {
-          let data = doc.data();
-          boards.push({
-            key: doc.id,
-            title: data.title,
-            description: data.description,
-            author: data.author
-          });
-        });
-        observer.next(boards);
-      });
-    });
+  getBoards(): Observable<Board[]> {
+    return this.boardCollection.snapshotChanges().pipe(
+      map(actions =>
+        actions.map(a => {
+          const data = a.payload.doc.data()
+          const id = a.payload.doc.id
+          return { id, ...data }
+        }),
+      ),
+    )
   }
 
   getBoard(id: string): Observable<any> {
-    return new Observable((observer) => {
-      this.ref.doc(id).get().then((doc) => {
-        let data = doc.data();
-        observer.next({
-          key: doc.id,
-          title: data.title,
-          description: data.description,
-          author: data.author
-        });
-      });
-    });
+    return this.boardCollection.doc(id).valueChanges()
   }
 
-  postBoards(data): Observable<any> {
-    return new Observable((observer) => {
-      this.ref.add(data).then((doc) => {
-        observer.next({
-          key: doc.id,
-        });
-      });
-    });
+  postBoard(board: Board) {
+    return from(this.boardCollection.add(board).then(data => data.id))
   }
 
-  updateBoards(id: string, data): Observable<any> {
-    return new Observable((observer) => {
-      this.ref.doc(id).set(data).then(() => {
-        observer.next();
-      });
-    });
+  updateBoards(id: string, board: Board) {
+    const doc = this.boardCollection.doc(id)
+    return from(doc.update(board))
   }
 
-  deleteBoards(id: string): Observable<{}> {
-    return new Observable((observer) => {
-      this.ref.doc(id).delete().then(() => {
-        observer.next();
-      });
-    });
+  deleteBoards(id: string) {
+    const doc = this.boardCollection.doc(id)
+    return from(doc.delete())
   }
 }

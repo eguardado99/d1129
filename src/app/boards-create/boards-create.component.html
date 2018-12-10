@@ -1,29 +1,51 @@
-<div class="button-row">
+<!-- <div class="button-row">
   <a mat-fab color="primary" [routerLink]="['/boards']"><mat-icon>list</mat-icon></a>
-</div>
-<form [formGroup]="boardsForm" (ngSubmit)="onFormSubmit(boardsForm.value)">
+</div> -->
+
+<div class="container">
+<form class="example-form" [formGroup]="boardsForm" (ngSubmit)="onFormSubmit()">
+    <span>New Contact</span>
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="Title" formControlName="title"
-           [errorStateMatcher]="matcher">
+    <input matInput placeholder="Name" formControlName="name" />
     <mat-error>
-      <span *ngIf="!boardsForm.get('title').valid && boardsForm.get('title').touched">Please enter Board Title</span>
+      <span *ngIf="!boardsForm.get('name').valid && boardsForm.get('name').touched">
+        Please enter your Name
+      </span>
     </mat-error>
   </mat-form-field>
+
   <mat-form-field class="example-full-width">
-    <textarea matInput placeholder="Description" formControlName="description"
-           [errorStateMatcher]="matcher"></textarea>
+    <textarea matInput placeholder="Email" formControlName="email"></textarea>
     <mat-error>
-      <span *ngIf="!boardsForm.get('description').valid && boardsForm.get('description').touched">Please enter Board Description</span>
+      <span *ngIf="!boardsForm.get('email').valid && boardsForm.get('email').touched">
+        Please enter your email
+      </span>
     </mat-error>
   </mat-form-field>
+
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="Author" formControlName="author"
-           [errorStateMatcher]="matcher">
+    <input matInput placeholder="Phone" formControlName="phone" />
     <mat-error>
-      <span *ngIf="!boardsForm.get('author').valid && boardsForm.get('author').touched">Please enter Board Author</span>
+      <span *ngIf="!boardsForm.get('phone').valid && boardsForm.get('phone').touched">
+        Please enter your phone number
+      </span>
     </mat-error>
   </mat-form-field>
+
+  <!-- <div class="button-row">
+    <button type="submit" [disabled]="!boardsForm.valid" mat-raised-button color="primary">
+        <div class="custom"><mat-icon>add_circle</mat-icon> Save</div>
+    </button>
+  </div> -->
+
   <div class="button-row">
-    <button type="submit" [disabled]="!boardsForm.valid" mat-fab color="primary"><mat-icon>save</mat-icon></button>
-  </div>
+      <button type="submit" class="btn btn-primary active" [disabled]="!boardsForm.valid">Submit
+      </button>
+    </div>
+
 </form>
+</div>
+<!-- <button type="button" class="btn btn-primary">
+<div class="custom"><mat-icon>list</mat-icon> Button</div>
+</button>  -->
+

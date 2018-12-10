@@ -1,38 +1,45 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FirestoreService } from '../firestore.service';
-import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core'
+
+import { Router } from '@angular/router'
+import { Board, FirestoreService } from '../firestore.service'
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-boards-create',
   templateUrl: './boards-create.component.html',
-  styleUrls: ['./boards-create.component.css']
+  styleUrls: ['./boards-create.component.css'],
 })
 export class BoardsCreateComponent implements OnInit {
+  boardsForm: FormGroup
+  id = ''
+  name = ''
+  email = ''
+  phone = ''
 
-  boardsForm: FormGroup;
-  title:string='';
-  description:string='';
-  author:string='';
-
-  constructor(private router: Router, private fs: FirestoreService, private formBuilder: FormBuilder) { }
+  constructor(
+    private router: Router,
+    private fs: FirestoreService,
+    private formBuilder: FormBuilder,
+  ) {}
 
   ngOnInit() {
     this.boardsForm = this.formBuilder.group({
-      'title' : [null, Validators.required],
-      'description' : [null, Validators.required],
-      'author' : [null, Validators.required]
-    });
+      name: [null, Validators.required],
+      email: [null, Validators.email],
+      phone: [null, Validators.required],
+    })
   }
 
-  onFormSubmit(form:NgForm) {
-    this.fs.postBoards(form)
-      .subscribe(res => {
-          let id = res['key'];
-          this.router.navigate(['/boards-details', id]);
-        }, (err) => {
-          console.log(err);
-        });
+  onFormSubmit() {
+    const board = this.boardsForm.value
+    console.log(board)
+    this.fs.postBoard(board).subscribe(
+      id => {
+        this.router.navigate(['/boards-details', id])
+      },
+      err => {
+        console.log(err)
+      },
+    )
   }
-
 }

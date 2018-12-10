@@ -8,6 +8,6 @@ export const environment = {
     databaseURL: "https://demo1129-321ba.firebaseio.com",
     projectId: "demo1129-321ba",
     storageBucket: "demo1129-321ba.appspot.com",
-    messagingSenderId: "53882642445"
+    messagingSenderId: "53882642445",
   }
 };

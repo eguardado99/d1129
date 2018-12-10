@@ -1,36 +1,30 @@
 import { Component, OnInit } from '@angular/core'
+
 import { DataSource } from '@angular/cdk/collections'
 import { FirestoreService } from '../firestore.service'
 
 @Component({
   selector: 'app-boards',
   templateUrl: './boards.component.html',
-  styleUrls: ['./boards.component.css']
+  styleUrls: ['./boards.component.css'],
 })
 export class BoardsComponent implements OnInit {
+  displayedColumns = ['name', 'email', 'phone']
+  dataSource = new BoardDataSource(this.fs)
 
-  displayedColumns = ['title', 'description', 'author'];
-  dataSource = new BoardDataSource(this.fs);
+  constructor(private fs: FirestoreService) {}
 
-  constructor(private fs: FirestoreService) {
-  }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
 
 export class BoardDataSource extends DataSource<any> {
-
   constructor(private fs: FirestoreService) {
     super()
   }
 
   connect() {
-    return this.fs.getBoards();
+    return this.fs.getBoards()
   }
 
-  disconnect() {
-
-  }
+  disconnect() {}
 }
