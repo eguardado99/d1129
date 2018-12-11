@@ -8,16 +8,15 @@
 
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#">Index </a>
+          <a mat-button color="primary" [routerLink]="['/boards']">Index</a>
         </li>
 
         <li class="nav-item2">
-          <a class="nav-link" href="/boards-create">New</a>
+          <a mat-button color="primary" [routerLink]="['/boards-create']">New</a>
         </li>
       </ul>
     </div>
   </nav>
-
 <!-- <div style="text-align:center"><h1>Welcome to Angular Firebase!</h1></div> -->
 
 <router-outlet></router-outlet>
