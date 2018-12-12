@@ -40,18 +40,20 @@
     <div class="buttons">
       <!-- <a mat-fab color="primary" [routerLink]="['/boards-edit', id]"><mat-icon>edit</mat-icon></a> -->
       <div class="button-row">
-          <button type="button" class="btn-primary-edit" [routerLink]="['/boards-edit', id]"> Edit 
-          </button>
+        <a mat-flat-button color="primary" class="btn-primary-edit" [routerLink]="['/boards-edit', id]"> Edit 
+        </a>
         </div>
       <!-- <a mat-fab color="warn" (click)="deleteBoard(id)"><mat-icon>delete</mat-icon></a> -->
 
       <div class="button-row">
-          <button type="button" class="btn-primary-delete" (click)="deleteBoard(id)">Delete
-          </button>
+        <a mat-flat-button color="primary" class="btn-primary-delete" onClick="return confirm('Are you sure you want to delete?')" (click)="deleteBoard(id)">Delete</a>
         </div>
       </div>
 
     </mat-card-actions>
   </mat-card>
+
+  
+
 
  
